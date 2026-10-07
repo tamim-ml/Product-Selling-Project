@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product Check & Sale</title>
+<style>
+  :root {
+    --bg: #e9eef2;
+    --ink: #14232e;
+    --muted: #5d6f7b;
+    --card: #ffffff;
+    --line: #cfd9e0;
+    --check: #14232e;
+    --sale: #e08a00;
+    --stock: #1f7a4d;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  }
+
+  .panel {
+    width: 100%;
+    max-width: 460px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(20, 35, 46, 0.12);
+  }
+
+  .panel-head {
+    padding: 22px 28px;
+    background: var(--ink);
+    color: #fff;
+  }
+  .panel-head h1 { margin: 0; font-size: 1.35rem; font-weight: 700; }
+  .panel-head p { margin: 4px 0 0; font-size: 0.9rem; color: #a9bac6; }
+
+  form { padding: 26px 28px 8px; }
+  .sale-form { padding-top: 0; padding-bottom: 28px; }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  input[type="text"],
+  input[type="number"] {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 1.1rem;
+    color: var(--ink);
+    background: #f6f9fb;
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    outline: none;
+  }
+  input:focus { border-color: var(--ink); background: #fff; }
+
+  .buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  button {
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #fff;
+  }
+  button:focus-visible { outline: 3px solid #7aa7c7; outline-offset: 2px; }
+  .btn-check { background: var(--check); }
+  .btn-sale { background: var(--sale); color: #1d1300; }
+  button:hover { filter: brightness(1.1); }
+
+  .details {
+    margin: 26px 28px 28px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .details h2 {
+    margin: 0;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    background: #f0f4f7;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .row:last-child { border-bottom: 0; }
+  .row .name { color: var(--muted); font-size: 0.92rem; }
+  .row .value { font-size: 1.1rem; font-weight: 700; text-align: right; }
+  .row .price { color: var(--sale); }
+  .row .stock { color: var(--stock); }
+</style>
+</head>
+<body>
+
+  <div class="panel">
+    <div class="panel-head">
+      <h1>Product Check & Sale</h1>
+      <p>Enter a product ID to look it up or sell it.</p>
+    </div>
+
+    <form method="post">
+      <label for="product_id">Product ID</label>
+      <input type="number" id="product_id" name="product_id" placeholder="e.g. 101" min="1" required>
+
+      <div class="buttons">
+        <button type="submit" name="action" value="check" class="btn-check">Check</button>
+      </div>
+    </form>
+
+    <div class="details">
+      <h2>Product details</h2>
+      <div class="row">
+        <span class="name">Product name</span>
+        <span class="value">{{product_name}}</span>
+      </div>
+      <div class="row">
+        <span class="name">Price</span>
+        <span class="value price">${{price}}</span>
+      </div>
+      <div class="row">
+        <span class="name">Stock</span>
+        <span class="value stock">{{stock}} units</span>
+      </div>
+    </div>
+
+    <form method="post" class="sale-form">
+      <!-- Fill this with the checked product's id from your backend -->
+      <input type="hidden" name="product_id" value="{{product_id}}">
+
+      <label for="units">Units to sell</label>
+      <input type="number" id="units" name="units" placeholder="e.g. 3" min="1" required>
+
+      <div class="buttons">
+        <button type="submit" name="action" value="sale" class="btn-sale">Sale</button>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>
